@@ -1,0 +1,3 @@
+[submodule "deps/Fairy-Stockfish-Lib"]
+	path = deps/Fairy-Stockfish-Lib
+	url = https://github.com/Mind-Sports-Games/Fairy-Stockfish-Lib.git

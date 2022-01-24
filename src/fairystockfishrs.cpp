@@ -4,7 +4,6 @@
 #include "fairystockfish/src/lib.rs.h"
 
 #include <algorithm>
-#include <iostream>
 
 namespace fairystockfish::rustffi {
     void init() { fairystockfish::init(); }
@@ -34,9 +33,6 @@ namespace fairystockfish::rustffi {
         auto pieceMap = fairystockfish::availablePieces();
         rust::Vec<PieceInfo> retVal;
         for (auto const &[name, piece] : pieceMap) {
-            std::cerr << "id: " << piece.id() << std::endl;
-            std::cerr << "name: " << piece.name() << std::endl;
-            std::cerr << "betza: " << piece.betza() << std::endl;
             retVal.push_back(fairystockfish::rustffi::PieceInfo{
                 std::uint32_t(piece.id()),
                 piece.name(),

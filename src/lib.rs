@@ -14,6 +14,11 @@ pub mod ffi {
         gameResult: u32,
     }
 
+    struct TestByPlayers {
+        player1: bool,
+        player2: bool,
+    }
+
     unsafe extern "C++" {
         include!("fairystockfish/src/fairystockfishrs.h");
 
@@ -103,6 +108,7 @@ pub mod ffi {
         ///     String::from("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1")
         /// );
         /// ```
+        /// TODO: add other arguments
         fn getFEN(&self) -> String;
 
         //fn getSAN(uci: String, )
@@ -127,9 +133,20 @@ pub mod ffi {
         /// ```
         fn getLegalMoves(&self) -> Vec<String>;
 
+        // TODO:
+        // fn piecesOnBoard() -> ???
+        // fn piecesInHand() -> ???
+        // fn getSANMoves() -> ???
+        // fn getSAN() -> ???
+
         fn givesCheck(&self) -> bool;
+        fn hasRepeated(&self) -> bool;
+        fn isDraw(&self, ply: u32) -> bool;
+        fn hasGameCycle(&self, ply: u32) -> bool;
         fn gameResult(&self) -> u32;
         fn isImmediateGameEnd(&self) -> TestWithGameResult;
+        fn isOptionalGameEnd(&self) -> TestWithGameResult;
+        fn hasInsufficientMaterial(&self) -> TestByPlayers;
     }
 }
 

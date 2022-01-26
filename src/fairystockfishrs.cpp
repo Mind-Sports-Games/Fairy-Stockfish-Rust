@@ -11,6 +11,18 @@ namespace fairystockfish::rustffi {
         std::copy(vals.begin(), vals.end(), std::back_inserter(retVal));
         return retVal;
     }
+    TestWithGameResult toRust(std::tuple<bool, int> res) {
+        return fairystockfish::rustffi::TestWithGameResult{
+            std::get<0>(res),  
+            std::uint32_t(std::get<1>(res))
+        };
+    }
+    TestByPlayers toRust(std::tuple<bool, bool> res) {
+        return fairystockfish::rustffi::TestByPlayers{
+            std::get<0>(res),  
+            std::get<1>(res)
+        };
+    }
 
     void init() { fairystockfish::init(); }
 
@@ -76,16 +88,21 @@ namespace fairystockfish::rustffi {
     }
 
     bool Position::givesCheck() const { return impl->givesCheck(); }
+    bool Position::hasRepeated() const { return impl->hasRepeated(); }
+    bool Position::isDraw(std::uint32_t ply) const { return impl->isDraw(int(ply)); }
+    bool Position::hasGameCycle(std::uint32_t ply) const { return impl->hasGameCycle(int(ply)); }
     std::uint32_t Position::gameResult() const {
         return std::uint32_t(impl->gameResult());
     }
 
     fairystockfish::rustffi::TestWithGameResult Position::isImmediateGameEnd() const {
-        auto res = impl->isImmediateGameEnd();
-        return fairystockfish::rustffi::TestWithGameResult{
-            std::get<0>(res),  
-            std::uint32_t(std::get<1>(res))
-        };
+        return toRust(impl->isImmediateGameEnd());
+    }
 
+    fairystockfish::rustffi::TestWithGameResult Position::isOptionalGameEnd() const {
+        return toRust(impl->isOptionalGameEnd());
+    }
+    fairystockfish::rustffi::TestByPlayers Position::hasInsufficientMaterial() const {
+        return toRust(impl->hasInsufficientMaterial());
     }
 }

@@ -17,6 +17,7 @@
 namespace fairystockfish::rustffi {
     struct PieceInfo;
     struct TestWithGameResult;
+    struct TestByPlayers;
 
     struct Position {
         // Member implementation
@@ -35,12 +36,18 @@ namespace fairystockfish::rustffi {
         rust::String getFEN() const;
         rust::Vec<rust::String> getLegalMoves() const;
         bool givesCheck() const;
+        bool hasRepeated() const;
+        bool isDraw(std::uint32_t ply) const;
+        bool hasGameCycle(std::uint32_t ply) const;
         std::uint32_t gameResult() const;
         fairystockfish::rustffi::TestWithGameResult isImmediateGameEnd() const;
+        fairystockfish::rustffi::TestWithGameResult isOptionalGameEnd() const;
+        fairystockfish::rustffi::TestByPlayers hasInsufficientMaterial() const;
 
     };
 
     rust::Vec<rust::String> toRust(std::vector<std::string> const &vals);
+    TestWithGameResult toRust(std::tuple<bool, int> res);
 
     void init();
     rust::String version();

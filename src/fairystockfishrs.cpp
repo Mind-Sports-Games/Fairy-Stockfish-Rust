@@ -1,11 +1,17 @@
 #include "fairystockfishrs.h"
-#include "fairystockfish.h"
 
 #include "fairystockfish/src/lib.rs.h"
 
 #include <algorithm>
 
 namespace fairystockfish::rustffi {
+
+    rust::Vec<rust::String> toRust(std::vector<std::string> const &vals) {
+        rust::Vec<rust::String> retVal;
+        std::copy(vals.begin(), vals.end(), std::back_inserter(retVal));
+        return retVal;
+    }
+
     void init() { fairystockfish::init(); }
 
     rust::String version() { return fairystockfish::version(); }
@@ -21,10 +27,7 @@ namespace fairystockfish::rustffi {
     }
 
     rust::Vec<rust::String> availableVariants() {
-        rust::Vec<rust::String> retVal;
-        auto variants = fairystockfish::availableVariants();
-        std::copy(variants.begin(), variants.end(), std::back_inserter(retVal));
-        return retVal;
+        return toRust(fairystockfish::availableVariants());
     }
 
     rust::String initialFen(rust::String variantName) { return fairystockfish::initialFen(std::string(variantName)); }
@@ -44,5 +47,45 @@ namespace fairystockfish::rustffi {
 
     bool validateFEN(rust::String variantName, rust::String fen, bool isChess960) {
         return fairystockfish::validateFEN(std::string(variantName), std::string(fen), isChess960);
+    }
+
+    std::unique_ptr<Position> startingPosition(rust::String variantName, bool isChess960) {
+        return std::make_unique<Position>(
+            fairystockfish::Position{std::string(variantName), isChess960}
+        );
+    }
+
+    std::unique_ptr<Position> positionFromFen(rust::String variantName, rust::String fen, bool isChess960) {
+        return std::make_unique<Position>(
+            fairystockfish::Position{std::string(variantName), std::string(fen), isChess960}
+        );
+    }
+
+    std::unique_ptr<Position> Position::makeMoves(rust::Vec<rust::String> const &moves) const {
+        std::vector<std::string> uciMoves;
+        for (auto const &m : moves) {
+            uciMoves.push_back(std::string(m));
+        }
+        return std::make_unique<Position>(impl->makeMoves(uciMoves));
+    }
+
+    rust::String Position::getFEN() const { return impl->getFEN(); }
+
+    rust::Vec<rust::String> Position::getLegalMoves() const {
+        return toRust(impl->getLegalMoves());
+    }
+
+    bool Position::givesCheck() const { return impl->givesCheck(); }
+    std::uint32_t Position::gameResult() const {
+        return std::uint32_t(impl->gameResult());
+    }
+
+    fairystockfish::rustffi::TestWithGameResult Position::isImmediateGameEnd() const {
+        auto res = impl->isImmediateGameEnd();
+        return fairystockfish::rustffi::TestWithGameResult{
+            std::get<0>(res),  
+            std::uint32_t(std::get<1>(res))
+        };
+
     }
 }

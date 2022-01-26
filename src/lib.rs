@@ -9,6 +9,11 @@ pub mod ffi {
         betza: String,
     }
 
+    struct TestWithGameResult {
+        test: bool,
+        gameResult: u32,
+    }
+
     unsafe extern "C++" {
         include!("fairystockfish/src/fairystockfishrs.h");
 
@@ -82,6 +87,49 @@ pub mod ffi {
         /// ```
         fn validateFEN(variantName: String, fen: String, isChess960: bool) -> bool;
 
+        type Position;
+
+        fn startingPosition(variantName: String, isChess960: bool) -> UniquePtr<Position>;
+        fn positionFromFen(variantName: String, fen: String, isChess960: bool) -> UniquePtr<Position>;
+        fn makeMoves(&self, moves: &Vec<String>) -> UniquePtr<Position>;
+
+        /// # Examples
+        /// ```
+        /// fairystockfish::init();
+        /// let p = fairystockfish::startingPosition(String::from("chess"), false);
+        /// let p = p.makeMoves(&vec![String::from("e2e4")]);
+        /// assert_eq!(
+        ///     p.getFEN(),
+        ///     String::from("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1")
+        /// );
+        /// ```
+        fn getFEN(&self) -> String;
+
+        //fn getSAN(uci: String, )
+
+        /// # Examples
+        /// ```
+        /// fairystockfish::init();
+        /// let p = fairystockfish::startingPosition(String::from("chess"), false);
+        /// assert_eq!(
+        ///     Some(&String::from("e2e4")),
+        ///     p.getLegalMoves()
+        ///         .iter()
+        ///         .find(|&n| n.eq("e2e4"))
+        /// );
+        /// let p = p.makeMoves(&vec![String::from("e2e4")]);
+        /// assert_eq!(
+        ///     Some(&String::from("e7e5")),
+        ///     p.getLegalMoves()
+        ///         .iter()
+        ///         .find(|&n| n.eq("e7e5"))
+        /// );
+        /// ```
+        fn getLegalMoves(&self) -> Vec<String>;
+
+        fn givesCheck(&self) -> bool;
+        fn gameResult(&self) -> u32;
+        fn isImmediateGameEnd(&self) -> TestWithGameResult;
     }
 }
 
@@ -95,5 +143,6 @@ pub use ffi::{
     availableVariants,
     initialFen,
     availablePieces,
-    validateFEN
+    validateFEN,
+    startingPosition
 };

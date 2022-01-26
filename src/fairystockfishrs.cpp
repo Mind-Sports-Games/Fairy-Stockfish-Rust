@@ -82,6 +82,13 @@ namespace fairystockfish::rustffi {
     }
 
     rust::String Position::getFEN() const { return impl->getFEN(); }
+    rust::String Position::getFENWithArgs(bool sFen, bool showPromoted, std::uint32_t countStarted) const {
+        return impl->getFEN(sFen, showPromoted, countStarted);
+    }
+    rust::String Position::getSAN(rust::String uci) const { return impl->getSAN(std::string(uci)); }
+    rust::String Position::getSANWithNotation(rust::String uci, Notation notation) const {
+        return impl->getSAN(std::string(uci), notation);
+    }
 
     rust::Vec<rust::String> Position::getLegalMoves() const {
         return toRust(impl->getLegalMoves());

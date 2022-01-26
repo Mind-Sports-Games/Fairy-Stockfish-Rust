@@ -15,6 +15,7 @@
 #include <memory>
 
 namespace fairystockfish::rustffi {
+    using Notation = fairystockfish::Notation;
     struct PieceInfo;
     struct TestWithGameResult;
     struct TestByPlayers;
@@ -34,6 +35,9 @@ namespace fairystockfish::rustffi {
         // Public API
         std::unique_ptr<Position> makeMoves(rust::Vec<rust::String> const &moves) const;
         rust::String getFEN() const;
+        rust::String getFENWithArgs(bool sFen, bool showPromoted, std::uint32_t countStarted) const;
+        rust::String getSAN(rust::String uci) const;
+        rust::String getSANWithNotation(rust::String uci, Notation notation) const;
         rust::Vec<rust::String> getLegalMoves() const;
         bool givesCheck() const;
         bool hasRepeated() const;

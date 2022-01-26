@@ -19,8 +19,21 @@ pub mod ffi {
         player2: bool,
     }
 
+    enum Notation {
+        NOTATION_DEFAULT,
+        NOTATION_SAN,
+        NOTATION_LAN,
+        NOTATION_SHOGI_HOSKING, // Examples: P76, S’34
+        NOTATION_SHOGI_HODGES, // Examples: P-7f, S*3d
+        NOTATION_SHOGI_HODGES_NUMBER, // Examples: P-76, S*34
+        NOTATION_JANGGI,
+        NOTATION_XIANGQI_WXF,
+    }
+
     unsafe extern "C++" {
         include!("fairystockfish/src/fairystockfishrs.h");
+
+        type Notation;
 
         fn init();
 
@@ -96,7 +109,7 @@ pub mod ffi {
 
         fn startingPosition(variantName: String, isChess960: bool) -> UniquePtr<Position>;
         fn positionFromFen(variantName: String, fen: String, isChess960: bool) -> UniquePtr<Position>;
-        fn makeMoves(&self, moves: &Vec<String>) -> UniquePtr<Position>;
+        fn makeMoves(self: &Position, moves: &Vec<String>) -> UniquePtr<Position>;
 
         /// # Examples
         /// ```
@@ -108,10 +121,8 @@ pub mod ffi {
         ///     String::from("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1")
         /// );
         /// ```
-        /// TODO: add other arguments
-        fn getFEN(&self) -> String;
-
-        //fn getSAN(uci: String, )
+        fn getFEN(self: &Position) -> String;
+        fn getFENWithArgs(self: &Position, sFen: bool, showPromoted: bool, countStarted: u32) -> String;
 
         /// # Examples
         /// ```
@@ -131,22 +142,24 @@ pub mod ffi {
         ///         .find(|&n| n.eq("e7e5"))
         /// );
         /// ```
-        fn getLegalMoves(&self) -> Vec<String>;
+        fn getLegalMoves(self: &Position) -> Vec<String>;
 
         // TODO:
         // fn piecesOnBoard() -> ???
         // fn piecesInHand() -> ???
         // fn getSANMoves() -> ???
         // fn getSAN() -> ???
+        fn getSAN(self: &Position, uci: String) -> String;
+        fn getSANWithNotation(self: &Position, uci: String, notation: Notation) -> String;
 
-        fn givesCheck(&self) -> bool;
-        fn hasRepeated(&self) -> bool;
-        fn isDraw(&self, ply: u32) -> bool;
-        fn hasGameCycle(&self, ply: u32) -> bool;
-        fn gameResult(&self) -> u32;
-        fn isImmediateGameEnd(&self) -> TestWithGameResult;
-        fn isOptionalGameEnd(&self) -> TestWithGameResult;
-        fn hasInsufficientMaterial(&self) -> TestByPlayers;
+        fn givesCheck(self: &Position) -> bool;
+        fn hasRepeated(self: &Position) -> bool;
+        fn isDraw(self: &Position, ply: u32) -> bool;
+        fn hasGameCycle(self: &Position, ply: u32) -> bool;
+        fn gameResult(self: &Position) -> u32;
+        fn isImmediateGameEnd(self: &Position) -> TestWithGameResult;
+        fn isOptionalGameEnd(self: &Position) -> TestWithGameResult;
+        fn hasInsufficientMaterial(self: &Position) -> TestByPlayers;
     }
 }
 

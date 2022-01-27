@@ -38,8 +38,8 @@ namespace fairystockfish::rustffi {
         std::unique_ptr<Position> makeMoves(rust::Vec<rust::String> const &moves) const;
         rust::String getFEN() const;
         rust::String getFENWithArgs(bool sFen, bool showPromoted, std::uint32_t countStarted) const;
-        rust::String getSAN(rust::String uci) const;
-        rust::String getSANWithNotation(rust::String uci, Notation notation) const;
+        rust::String getSAN(rust::String const &uci) const;
+        rust::String getSANWithNotation(rust::String const &uci, Notation notation) const;
         rust::Vec<rust::String> getSANMoves(rust::Vec<rust::String> const &uci) const;
         rust::Vec<rust::String> getSANMovesWithNotation(rust::Vec<rust::String> const &uci, Notation notation) const;
         rust::Vec<rust::String> getLegalMoves() const;
@@ -68,12 +68,12 @@ namespace fairystockfish::rustffi {
     void init();
     rust::String version();
     void info();
-    void setUCIOption(rust::String name, rust::String value);
-    void loadVariantConfig(rust::String config);
+    void setUCIOption(rust::String const &name, rust::String const &value);
+    void loadVariantConfig(rust::String const &config);
     rust::Vec<rust::String> availableVariants();
-    rust::String initialFen(rust::String variantName);
+    rust::String initialFen(rust::String const &variantName);
     rust::Vec<fairystockfish::rustffi::PieceInfo> availablePieces();
-    bool validateFEN(rust::String variantName, rust::String fen, bool isChess960);
-    std::unique_ptr<Position> startingPosition(rust::String variantName, bool isChess960);
-    std::unique_ptr<Position> positionFromFen(rust::String variantName, rust::String fen, bool isChess960);
+    bool validateFEN(rust::String const &variantName, rust::String const &fen, bool isChess960);
+    std::unique_ptr<Position> startingPosition(rust::String const &variantName, bool isChess960);
+    std::unique_ptr<Position> positionFromFen(rust::String const &variantName, rust::String const &fen, bool isChess960);
 }

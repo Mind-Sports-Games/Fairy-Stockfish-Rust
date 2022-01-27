@@ -61,8 +61,8 @@ pub mod ffi {
         /// ```
         fn version() -> String;
         fn info();
-        fn setUCIOption(name: String, value: String);
-        fn loadVariantConfig(config: String);
+        fn setUCIOption(name: &String, value: &String);
+        fn loadVariantConfig(config: &String);
 
         /// # Examples
         /// ```
@@ -81,18 +81,18 @@ pub mod ffi {
         /// fairystockfish::init();
         /// assert_eq!(
         ///     String::from("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"),
-        ///     fairystockfish::initialFen("chess".to_string())
+        ///     fairystockfish::initialFen(&"chess".to_string())
         /// );
         /// assert_eq!(
         ///     String::from("rnbqkbnr/pppppppp/8/1PP2PP1/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP w kq - 0 1"),
-        ///     fairystockfish::initialFen("horde".to_string())
+        ///     fairystockfish::initialFen(&"horde".to_string())
         /// );
         /// assert_eq!(
         ///     String::from("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL[-] w 0 1"),
-        ///     fairystockfish::initialFen("shogi".to_string())
+        ///     fairystockfish::initialFen(&"shogi".to_string())
         /// );
         /// ```
-        fn initialFen(variantName: String) -> String;
+        fn initialFen(variantName: &String) -> String;
 
         /// # Examples
         /// ```
@@ -115,24 +115,24 @@ pub mod ffi {
         /// fairystockfish::init();
         /// assert!(
         ///     fairystockfish::validateFEN(
-        ///         "shogi".to_string(),
-        ///         String::from("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL[-] w 0 1"),
+        ///         &"shogi".to_string(),
+        ///         &String::from("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL[-] w 0 1"),
         ///         false
         ///     )
         /// );
         /// ```
-        fn validateFEN(variantName: String, fen: String, isChess960: bool) -> bool;
+        fn validateFEN(variantName: &String, fen: &String, isChess960: bool) -> bool;
 
         type Position;
 
-        fn startingPosition(variantName: String, isChess960: bool) -> UniquePtr<Position>;
-        fn positionFromFen(variantName: String, fen: String, isChess960: bool) -> UniquePtr<Position>;
+        fn startingPosition(variantName: &String, isChess960: bool) -> UniquePtr<Position>;
+        fn positionFromFen(variantName: &String, fen: &String, isChess960: bool) -> UniquePtr<Position>;
         fn makeMoves(self: &Position, moves: &Vec<String>) -> UniquePtr<Position>;
 
         /// # Examples
         /// ```
         /// fairystockfish::init();
-        /// let p = fairystockfish::startingPosition(String::from("chess"), false);
+        /// let p = fairystockfish::startingPosition(&String::from("chess"), false);
         /// let p = p.makeMoves(&vec![String::from("e2e4")]);
         /// assert_eq!(
         ///     p.getFEN(),
@@ -145,7 +145,7 @@ pub mod ffi {
         /// # Examples
         /// ```
         /// fairystockfish::init();
-        /// let p = fairystockfish::startingPosition(String::from("chess"), false);
+        /// let p = fairystockfish::startingPosition(&String::from("chess"), false);
         /// assert_eq!(
         ///     Some(&String::from("e2e4")),
         ///     p.getLegalMoves()
@@ -162,8 +162,8 @@ pub mod ffi {
         /// ```
         fn getLegalMoves(self: &Position) -> Vec<String>;
 
-        fn getSAN(self: &Position, uci: String) -> String;
-        fn getSANWithNotation(self: &Position, uci: String, notation: Notation) -> String;
+        fn getSAN(self: &Position, uci: &String) -> String;
+        fn getSANWithNotation(self: &Position, uci: &String, notation: Notation) -> String;
         fn getSANMoves(self: &Position, uci: &Vec<String>) -> Vec<String>;
         fn getSANMovesWithNotation(self: &Position, uci: &Vec<String>, notation: Notation) -> Vec<String>;
 
@@ -171,8 +171,8 @@ pub mod ffi {
         /// ```
         /// fairystockfish::init();
         /// let p = fairystockfish::positionFromFen(
-        ///     String::from("chess"),
-        ///     String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
+        ///     &String::from("chess"),
+        ///     &String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
         ///     false
         /// );
         /// assert_eq!(
@@ -203,8 +203,8 @@ pub mod ffi {
         /// ```
         /// fairystockfish::init();
         /// let p = fairystockfish::positionFromFen(
-        ///     String::from("chess"),
-        ///     String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
+        ///     &String::from("chess"),
+        ///     &String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
         ///     false
         /// );
         /// assert_eq!(

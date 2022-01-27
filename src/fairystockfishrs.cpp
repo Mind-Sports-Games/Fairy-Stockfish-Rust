@@ -44,11 +44,11 @@ namespace fairystockfish::rustffi {
 
     void info() { fairystockfish::info(); }
 
-    void setUCIOption(rust::String name, rust::String value) {
+    void setUCIOption(rust::String const &name, rust::String const &value) {
         fairystockfish::setUCIOption(std::string(name), std::string(value));
     }
 
-    void loadVariantConfig(rust::String config) {
+    void loadVariantConfig(rust::String const &config) {
         fairystockfish::loadVariantConfig(std::string(config));
     }
 
@@ -93,7 +93,7 @@ namespace fairystockfish::rustffi {
 
     }
 
-    rust::String initialFen(rust::String variantName) { return fairystockfish::initialFen(std::string(variantName)); }
+    rust::String initialFen(rust::String const &variantName) { return fairystockfish::initialFen(std::string(variantName)); }
 
     rust::Vec<fairystockfish::rustffi::PieceInfo> availablePieces() {
         auto pieceMap = fairystockfish::availablePieces();
@@ -104,17 +104,17 @@ namespace fairystockfish::rustffi {
         return retVal;
     }
 
-    bool validateFEN(rust::String variantName, rust::String fen, bool isChess960) {
+    bool validateFEN(rust::String const &variantName, rust::String const &fen, bool isChess960) {
         return fairystockfish::validateFEN(std::string(variantName), std::string(fen), isChess960);
     }
 
-    std::unique_ptr<Position> startingPosition(rust::String variantName, bool isChess960) {
+    std::unique_ptr<Position> startingPosition(rust::String const &variantName, bool isChess960) {
         return std::make_unique<Position>(
             fairystockfish::Position{std::string(variantName), isChess960}
         );
     }
 
-    std::unique_ptr<Position> positionFromFen(rust::String variantName, rust::String fen, bool isChess960) {
+    std::unique_ptr<Position> positionFromFen(rust::String const &variantName, rust::String const &fen, bool isChess960) {
         return std::make_unique<Position>(
             fairystockfish::Position{std::string(variantName), std::string(fen), isChess960}
         );
@@ -132,8 +132,8 @@ namespace fairystockfish::rustffi {
     rust::String Position::getFENWithArgs(bool sFen, bool showPromoted, std::uint32_t countStarted) const {
         return impl->getFEN(sFen, showPromoted, countStarted);
     }
-    rust::String Position::getSAN(rust::String uci) const { return impl->getSAN(std::string(uci)); }
-    rust::String Position::getSANWithNotation(rust::String uci, Notation notation) const {
+    rust::String Position::getSAN(rust::String const &uci) const { return impl->getSAN(std::string(uci)); }
+    rust::String Position::getSANWithNotation(rust::String const &uci, Notation notation) const {
         return impl->getSAN(std::string(uci), notation);
     }
 

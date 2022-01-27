@@ -19,6 +19,17 @@ pub mod ffi {
         player2: bool,
     }
 
+    enum Color {
+        White,
+        Black
+    }
+
+    struct Piece {
+        color: Color,
+        promoted: bool,
+        pieceInfo: PieceInfo,
+    }
+
     enum Notation {
         NOTATION_DEFAULT,
         NOTATION_SAN,
@@ -36,6 +47,8 @@ pub mod ffi {
         type Notation;
 
         fn init();
+
+        // TODO: switch to references for all string  parameters, probably.
 
         /// # Examples
         /// ```
@@ -144,13 +157,44 @@ pub mod ffi {
         /// ```
         fn getLegalMoves(self: &Position) -> Vec<String>;
 
-        // TODO:
-        // fn piecesOnBoard() -> ???
-        // fn piecesInHand() -> ???
-        // fn getSANMoves() -> ???
-        // fn getSAN() -> ???
         fn getSAN(self: &Position, uci: String) -> String;
         fn getSANWithNotation(self: &Position, uci: String, notation: Notation) -> String;
+        fn getSANMoves(self: &Position, uci: &Vec<String>) -> Vec<String>;
+        fn getSANMovesWithNotation(self: &Position, uci: &Vec<String>, notation: Notation) -> Vec<String>;
+
+        // TODO:
+        // fn piecesOnBoard() -> ???
+        /// # Examples
+        /// ```
+        /// fairystockfish::init();
+        /// let p = fairystockfish::positionFromFen(
+        ///     String::from("chess"),
+        ///     String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
+        ///     false
+        /// );
+        /// assert_eq!(
+        ///     2,
+        ///     p.piecesInHand()
+        ///         .iter()
+        ///         .filter(|&p| p.color == fairystockfish::Color::White)
+        ///         .count()
+        /// );
+        /// assert_eq!(
+        ///     2,
+        ///     p.piecesInHand()
+        ///         .iter()
+        ///         .filter(|&p| p.color == fairystockfish::Color::Black)
+        ///         .count()
+        /// );
+        /// assert_eq!(
+        ///     1,
+        ///     p.piecesInHand()
+        ///         .iter()
+        ///         .filter(|&p| p.pieceInfo.name == String::from("queen"))
+        ///         .count()
+        /// );
+        /// ```
+        fn piecesInHand(self: &Position) -> Vec<Piece>;
 
         fn givesCheck(self: &Position) -> bool;
         fn hasRepeated(self: &Position) -> bool;
@@ -174,5 +218,8 @@ pub use ffi::{
     initialFen,
     availablePieces,
     validateFEN,
-    startingPosition
+    startingPosition,
+    positionFromFen,
+    Color,
+    Piece,
 };

@@ -19,6 +19,7 @@ namespace fairystockfish::rustffi {
     struct PieceInfo;
     struct TestWithGameResult;
     struct TestByPlayers;
+    struct Piece;
 
     struct Position {
         // Member implementation
@@ -38,7 +39,10 @@ namespace fairystockfish::rustffi {
         rust::String getFENWithArgs(bool sFen, bool showPromoted, std::uint32_t countStarted) const;
         rust::String getSAN(rust::String uci) const;
         rust::String getSANWithNotation(rust::String uci, Notation notation) const;
+        rust::Vec<rust::String> getSANMoves(rust::Vec<rust::String> const &uci) const;
+        rust::Vec<rust::String> getSANMovesWithNotation(rust::Vec<rust::String> const &uci, Notation notation) const;
         rust::Vec<rust::String> getLegalMoves() const;
+        rust::Vec<fairystockfish::rustffi::Piece> piecesInHand() const;
         bool givesCheck() const;
         bool hasRepeated() const;
         bool isDraw(std::uint32_t ply) const;
@@ -50,8 +54,13 @@ namespace fairystockfish::rustffi {
 
     };
 
+    std::vector<std::string> toCpp(rust::Vec<rust::String> const &vals);
+
     rust::Vec<rust::String> toRust(std::vector<std::string> const &vals);
+    rust::Vec<Piece> toRust(std::vector<fairystockfish::Piece> const &vals);
     TestWithGameResult toRust(std::tuple<bool, int> res);
+    fairystockfish::rustffi::PieceInfo toRust(fairystockfish::PieceInfo const &p);
+    fairystockfish::rustffi::Piece toRust(fairystockfish::Piece const &p);
 
     void init();
     rust::String version();

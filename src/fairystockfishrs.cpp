@@ -11,6 +11,20 @@ namespace fairystockfish::rustffi {
         std::copy(vals.begin(), vals.end(), std::back_inserter(retVal));
         return retVal;
     }
+
+    std::vector<std::string> toCpp(rust::Vec<rust::String> const &vals) {
+        std::vector<std::string> retVal;
+        std::transform(
+            vals.begin(),
+            vals.end(),
+            std::back_inserter(retVal),
+            [](auto const &s) {
+                return std::string(s);
+            }
+        );
+        return retVal;
+    }
+
     TestWithGameResult toRust(std::tuple<bool, int> res) {
         return fairystockfish::rustffi::TestWithGameResult{
             std::get<0>(res),  
@@ -42,17 +56,42 @@ namespace fairystockfish::rustffi {
         return toRust(fairystockfish::availableVariants());
     }
 
+    rust::Vec<Piece> toRust(std::vector<fairystockfish::Piece> const &vals) {
+        rust::Vec<Piece> retVal;
+        std::transform(
+            vals.begin(),
+            vals.end(),
+            std::back_inserter(retVal),
+            [](auto const &p) {
+                return toRust(p);
+            }
+        );
+        return retVal;
+    }
+
+    fairystockfish::rustffi::PieceInfo toRust(fairystockfish::PieceInfo const &p) {
+        return fairystockfish::rustffi::PieceInfo{
+            std::uint32_t(p.id()),
+            p.name(),
+            p.betza()
+        };
+    }
+
+    fairystockfish::rustffi::Piece toRust(fairystockfish::Piece const &p) {
+        return fairystockfish::rustffi::Piece{
+            p.isWhite() ? Color::White : Color::Black,
+            p.promoted(),
+            toRust(p.pieceInfo())
+        };
+    }
+
     rust::String initialFen(rust::String variantName) { return fairystockfish::initialFen(std::string(variantName)); }
 
     rust::Vec<fairystockfish::rustffi::PieceInfo> availablePieces() {
         auto pieceMap = fairystockfish::availablePieces();
         rust::Vec<PieceInfo> retVal;
         for (auto const &[name, piece] : pieceMap) {
-            retVal.push_back(fairystockfish::rustffi::PieceInfo{
-                std::uint32_t(piece.id()),
-                piece.name(),
-                piece.betza()
-            });
+            retVal.push_back(toRust(piece));
         }
         return retVal;
     }
@@ -90,8 +129,19 @@ namespace fairystockfish::rustffi {
         return impl->getSAN(std::string(uci), notation);
     }
 
+    rust::Vec<rust::String> Position::getSANMoves(rust::Vec<rust::String> const &uci) const {
+        return toRust(impl->getSANMoves(toCpp(uci)));
+    }
+    rust::Vec<rust::String> Position::getSANMovesWithNotation(rust::Vec<rust::String> const &uci, Notation notation) const {
+        return toRust(impl->getSANMoves(toCpp(uci), notation));
+    }
+
     rust::Vec<rust::String> Position::getLegalMoves() const {
         return toRust(impl->getLegalMoves());
+    }
+
+    rust::Vec<fairystockfish::rustffi::Piece> Position::piecesInHand() const {
+        return toRust(impl->piecesInHand());
     }
 
     bool Position::givesCheck() const { return impl->givesCheck(); }

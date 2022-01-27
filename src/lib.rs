@@ -30,6 +30,11 @@ pub mod ffi {
         pieceInfo: PieceInfo,
     }
 
+    struct PieceOnBoard {
+        piece: Piece,
+        square: String
+    }
+
     enum Notation {
         NOTATION_DEFAULT,
         NOTATION_SAN,
@@ -162,8 +167,38 @@ pub mod ffi {
         fn getSANMoves(self: &Position, uci: &Vec<String>) -> Vec<String>;
         fn getSANMovesWithNotation(self: &Position, uci: &Vec<String>, notation: Notation) -> Vec<String>;
 
-        // TODO:
-        // fn piecesOnBoard() -> ???
+        /// # Examples
+        /// ```
+        /// fairystockfish::init();
+        /// let p = fairystockfish::positionFromFen(
+        ///     String::from("chess"),
+        ///     String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
+        ///     false
+        /// );
+        /// assert_eq!(
+        ///     14,
+        ///     p.piecesOnBoard()
+        ///         .iter()
+        ///         .filter(|&p| p.piece.color == fairystockfish::Color::White)
+        ///         .count()
+        /// );
+        /// assert_eq!(
+        ///     14,
+        ///     p.piecesOnBoard()
+        ///         .iter()
+        ///         .filter(|&p| p.piece.color == fairystockfish::Color::Black)
+        ///         .count()
+        /// );
+        /// assert_eq!(
+        ///     1,
+        ///     p.piecesOnBoard()
+        ///         .iter()
+        ///         .filter(|&p| p.piece.pieceInfo.name == String::from("queen"))
+        ///         .count()
+        /// );
+        /// ```
+        fn piecesOnBoard(self: &Position) -> Vec<PieceOnBoard>;
+
         /// # Examples
         /// ```
         /// fairystockfish::init();

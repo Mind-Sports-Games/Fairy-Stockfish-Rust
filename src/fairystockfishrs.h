@@ -20,6 +20,7 @@ namespace fairystockfish::rustffi {
     struct TestWithGameResult;
     struct TestByPlayers;
     struct Piece;
+    struct PieceOnBoard;
 
     struct Position {
         // Member implementation
@@ -43,6 +44,7 @@ namespace fairystockfish::rustffi {
         rust::Vec<rust::String> getSANMovesWithNotation(rust::Vec<rust::String> const &uci, Notation notation) const;
         rust::Vec<rust::String> getLegalMoves() const;
         rust::Vec<fairystockfish::rustffi::Piece> piecesInHand() const;
+        rust::Vec<fairystockfish::rustffi::PieceOnBoard> piecesOnBoard() const;
         bool givesCheck() const;
         bool hasRepeated() const;
         bool isDraw(std::uint32_t ply) const;
@@ -61,6 +63,7 @@ namespace fairystockfish::rustffi {
     TestWithGameResult toRust(std::tuple<bool, int> res);
     fairystockfish::rustffi::PieceInfo toRust(fairystockfish::PieceInfo const &p);
     fairystockfish::rustffi::Piece toRust(fairystockfish::Piece const &p);
+    fairystockfish::rustffi::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p);
 
     void init();
     rust::String version();

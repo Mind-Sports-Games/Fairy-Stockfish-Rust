@@ -85,6 +85,14 @@ namespace fairystockfish::rustffi {
         };
     }
 
+    fairystockfish::rustffi::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p) {
+        return fairystockfish::rustffi::PieceOnBoard{
+            toRust(p),
+            square
+        };
+
+    }
+
     rust::String initialFen(rust::String variantName) { return fairystockfish::initialFen(std::string(variantName)); }
 
     rust::Vec<fairystockfish::rustffi::PieceInfo> availablePieces() {
@@ -142,6 +150,14 @@ namespace fairystockfish::rustffi {
 
     rust::Vec<fairystockfish::rustffi::Piece> Position::piecesInHand() const {
         return toRust(impl->piecesInHand());
+    }
+    rust::Vec<fairystockfish::rustffi::PieceOnBoard> Position::piecesOnBoard() const {
+        auto pieceMap = impl->piecesOnBoard();
+        rust::Vec<PieceOnBoard> retVal;
+        for (auto const &[board, piece] : pieceMap) {
+            retVal.push_back(toRust(board, piece));
+        }
+        return retVal;
     }
 
     bool Position::givesCheck() const { return impl->givesCheck(); }

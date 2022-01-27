@@ -2,6 +2,10 @@
 name = "fairystockfish"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+description = "A Rust wrapper for fairystockfish based on https://github.com/mind-sports-games/fairy-Stockfish-lib"
+homepage = "https://github.com/mind-sports-games/Fairy-Stockfish-Rust"
+repository = "https://github.com/mind-sports-games/Fairy-Stockfish-Rust"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

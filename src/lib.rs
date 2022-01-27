@@ -1,5 +1,5 @@
 
-#[cxx::bridge(namespace = "fairystockfish::rustffi")]
+#[cxx::bridge(namespace = "rsffish")]
 pub mod ffi {
 
     struct PieceInfo {
@@ -46,7 +46,7 @@ pub mod ffi {
     }
 
     unsafe extern "C++" {
-        include!("fairystockfish/src/fairystockfishrs.h");
+        include!("rsffish/src/fairystockfishrs.h");
 
         type Notation;
 
@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.5", fairystockfish::version());
+        /// assert_eq!("v0.0.5", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -63,10 +63,10 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
+        /// rsffish::init();
         /// assert_eq!(
         ///     Some(&String::from("shogi")),
-        ///     fairystockfish::availableVariants()
+        ///     rsffish::availableVariants()
         ///         .iter()
         ///         .find(|&n| n.eq("shogi"))
         ///     );
@@ -75,28 +75,28 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
+        /// rsffish::init();
         /// assert_eq!(
         ///     String::from("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"),
-        ///     fairystockfish::initialFen(&"chess".to_string())
+        ///     rsffish::initialFen(&"chess".to_string())
         /// );
         /// assert_eq!(
         ///     String::from("rnbqkbnr/pppppppp/8/1PP2PP1/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP w kq - 0 1"),
-        ///     fairystockfish::initialFen(&"horde".to_string())
+        ///     rsffish::initialFen(&"horde".to_string())
         /// );
         /// assert_eq!(
         ///     String::from("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL[-] w 0 1"),
-        ///     fairystockfish::initialFen(&"shogi".to_string())
+        ///     rsffish::initialFen(&"shogi".to_string())
         /// );
         /// ```
         fn initialFen(variantName: &String) -> String;
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
+        /// rsffish::init();
         /// assert_eq!(
         ///     Some(String::from("aiwok")),
-        ///     fairystockfish::availablePieces()
+        ///     rsffish::availablePieces()
         ///         .iter()
         ///         .skip(1)
         ///         .take(1)
@@ -109,9 +109,9 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
+        /// rsffish::init();
         /// assert!(
-        ///     fairystockfish::validateFEN(
+        ///     rsffish::validateFEN(
         ///         &"shogi".to_string(),
         ///         &String::from("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL[-] w 0 1"),
         ///         false
@@ -128,8 +128,8 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
-        /// let p = fairystockfish::startingPosition(&String::from("chess"), false);
+        /// rsffish::init();
+        /// let p = rsffish::startingPosition(&String::from("chess"), false);
         /// let p = p.makeMoves(&vec![String::from("e2e4")]);
         /// assert_eq!(
         ///     p.getFEN(),
@@ -141,8 +141,8 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
-        /// let p = fairystockfish::startingPosition(&String::from("chess"), false);
+        /// rsffish::init();
+        /// let p = rsffish::startingPosition(&String::from("chess"), false);
         /// assert_eq!(
         ///     Some(&String::from("e2e4")),
         ///     p.getLegalMoves()
@@ -166,8 +166,8 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
-        /// let p = fairystockfish::positionFromFen(
+        /// rsffish::init();
+        /// let p = rsffish::positionFromFen(
         ///     &String::from("chess"),
         ///     &String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
         ///     false
@@ -176,14 +176,14 @@ pub mod ffi {
         ///     14,
         ///     p.piecesOnBoard()
         ///         .iter()
-        ///         .filter(|&p| p.piece.color == fairystockfish::Color::White)
+        ///         .filter(|&p| p.piece.color == rsffish::Color::White)
         ///         .count()
         /// );
         /// assert_eq!(
         ///     14,
         ///     p.piecesOnBoard()
         ///         .iter()
-        ///         .filter(|&p| p.piece.color == fairystockfish::Color::Black)
+        ///         .filter(|&p| p.piece.color == rsffish::Color::Black)
         ///         .count()
         /// );
         /// assert_eq!(
@@ -198,8 +198,8 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// fairystockfish::init();
-        /// let p = fairystockfish::positionFromFen(
+        /// rsffish::init();
+        /// let p = rsffish::positionFromFen(
         ///     &String::from("chess"),
         ///     &String::from("rnb1kbnr/ppp1pppp/8/8/8/2N5/PPPB1PPP/R2QKBNR/QPpp b KQkq - 0 4"),
         ///     false
@@ -208,14 +208,14 @@ pub mod ffi {
         ///     2,
         ///     p.piecesInHand()
         ///         .iter()
-        ///         .filter(|&p| p.color == fairystockfish::Color::White)
+        ///         .filter(|&p| p.color == rsffish::Color::White)
         ///         .count()
         /// );
         /// assert_eq!(
         ///     2,
         ///     p.piecesInHand()
         ///         .iter()
-        ///         .filter(|&p| p.color == fairystockfish::Color::Black)
+        ///         .filter(|&p| p.color == rsffish::Color::Black)
         ///         .count()
         /// );
         /// assert_eq!(

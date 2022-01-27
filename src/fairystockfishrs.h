@@ -14,7 +14,7 @@
 
 #include <memory>
 
-namespace fairystockfish::rustffi {
+namespace rsffish {
     using Notation = fairystockfish::Notation;
     struct PieceInfo;
     struct TestWithGameResult;
@@ -43,16 +43,16 @@ namespace fairystockfish::rustffi {
         rust::Vec<rust::String> getSANMoves(rust::Vec<rust::String> const &uci) const;
         rust::Vec<rust::String> getSANMovesWithNotation(rust::Vec<rust::String> const &uci, Notation notation) const;
         rust::Vec<rust::String> getLegalMoves() const;
-        rust::Vec<fairystockfish::rustffi::Piece> piecesInHand() const;
-        rust::Vec<fairystockfish::rustffi::PieceOnBoard> piecesOnBoard() const;
+        rust::Vec<rsffish::Piece> piecesInHand() const;
+        rust::Vec<rsffish::PieceOnBoard> piecesOnBoard() const;
         bool givesCheck() const;
         bool hasRepeated() const;
         bool isDraw(std::uint32_t ply) const;
         bool hasGameCycle(std::uint32_t ply) const;
         std::uint32_t gameResult() const;
-        fairystockfish::rustffi::TestWithGameResult isImmediateGameEnd() const;
-        fairystockfish::rustffi::TestWithGameResult isOptionalGameEnd() const;
-        fairystockfish::rustffi::TestByPlayers hasInsufficientMaterial() const;
+        rsffish::TestWithGameResult isImmediateGameEnd() const;
+        rsffish::TestWithGameResult isOptionalGameEnd() const;
+        rsffish::TestByPlayers hasInsufficientMaterial() const;
 
     };
 
@@ -61,9 +61,9 @@ namespace fairystockfish::rustffi {
     rust::Vec<rust::String> toRust(std::vector<std::string> const &vals);
     rust::Vec<Piece> toRust(std::vector<fairystockfish::Piece> const &vals);
     TestWithGameResult toRust(std::tuple<bool, int> res);
-    fairystockfish::rustffi::PieceInfo toRust(fairystockfish::PieceInfo const &p);
-    fairystockfish::rustffi::Piece toRust(fairystockfish::Piece const &p);
-    fairystockfish::rustffi::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p);
+    rsffish::PieceInfo toRust(fairystockfish::PieceInfo const &p);
+    rsffish::Piece toRust(fairystockfish::Piece const &p);
+    rsffish::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p);
 
     void init();
     rust::String version();
@@ -72,7 +72,7 @@ namespace fairystockfish::rustffi {
     void loadVariantConfig(rust::String const &config);
     rust::Vec<rust::String> availableVariants();
     rust::String initialFen(rust::String const &variantName);
-    rust::Vec<fairystockfish::rustffi::PieceInfo> availablePieces();
+    rust::Vec<rsffish::PieceInfo> availablePieces();
     bool validateFEN(rust::String const &variantName, rust::String const &fen, bool isChess960);
     std::unique_ptr<Position> startingPosition(rust::String const &variantName, bool isChess960);
     std::unique_ptr<Position> positionFromFen(rust::String const &variantName, rust::String const &fen, bool isChess960);

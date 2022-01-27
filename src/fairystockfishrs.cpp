@@ -1,10 +1,10 @@
 #include "fairystockfishrs.h"
 
-#include "fairystockfish/src/lib.rs.h"
+#include "rsffish/src/lib.rs.h"
 
 #include <algorithm>
 
-namespace fairystockfish::rustffi {
+namespace rsffish {
 
     rust::Vec<rust::String> toRust(std::vector<std::string> const &vals) {
         rust::Vec<rust::String> retVal;
@@ -26,13 +26,13 @@ namespace fairystockfish::rustffi {
     }
 
     TestWithGameResult toRust(std::tuple<bool, int> res) {
-        return fairystockfish::rustffi::TestWithGameResult{
+        return rsffish::TestWithGameResult{
             std::get<0>(res),  
             std::uint32_t(std::get<1>(res))
         };
     }
     TestByPlayers toRust(std::tuple<bool, bool> res) {
-        return fairystockfish::rustffi::TestByPlayers{
+        return rsffish::TestByPlayers{
             std::get<0>(res),  
             std::get<1>(res)
         };
@@ -69,24 +69,24 @@ namespace fairystockfish::rustffi {
         return retVal;
     }
 
-    fairystockfish::rustffi::PieceInfo toRust(fairystockfish::PieceInfo const &p) {
-        return fairystockfish::rustffi::PieceInfo{
+    rsffish::PieceInfo toRust(fairystockfish::PieceInfo const &p) {
+        return rsffish::PieceInfo{
             std::uint32_t(p.id()),
             p.name(),
             p.betza()
         };
     }
 
-    fairystockfish::rustffi::Piece toRust(fairystockfish::Piece const &p) {
-        return fairystockfish::rustffi::Piece{
+    rsffish::Piece toRust(fairystockfish::Piece const &p) {
+        return rsffish::Piece{
             p.isWhite() ? Color::White : Color::Black,
             p.promoted(),
             toRust(p.pieceInfo())
         };
     }
 
-    fairystockfish::rustffi::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p) {
-        return fairystockfish::rustffi::PieceOnBoard{
+    rsffish::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p) {
+        return rsffish::PieceOnBoard{
             toRust(p),
             square
         };
@@ -95,7 +95,7 @@ namespace fairystockfish::rustffi {
 
     rust::String initialFen(rust::String const &variantName) { return fairystockfish::initialFen(std::string(variantName)); }
 
-    rust::Vec<fairystockfish::rustffi::PieceInfo> availablePieces() {
+    rust::Vec<rsffish::PieceInfo> availablePieces() {
         auto pieceMap = fairystockfish::availablePieces();
         rust::Vec<PieceInfo> retVal;
         for (auto const &[name, piece] : pieceMap) {
@@ -148,10 +148,10 @@ namespace fairystockfish::rustffi {
         return toRust(impl->getLegalMoves());
     }
 
-    rust::Vec<fairystockfish::rustffi::Piece> Position::piecesInHand() const {
+    rust::Vec<rsffish::Piece> Position::piecesInHand() const {
         return toRust(impl->piecesInHand());
     }
-    rust::Vec<fairystockfish::rustffi::PieceOnBoard> Position::piecesOnBoard() const {
+    rust::Vec<rsffish::PieceOnBoard> Position::piecesOnBoard() const {
         auto pieceMap = impl->piecesOnBoard();
         rust::Vec<PieceOnBoard> retVal;
         for (auto const &[board, piece] : pieceMap) {
@@ -168,14 +168,14 @@ namespace fairystockfish::rustffi {
         return std::uint32_t(impl->gameResult());
     }
 
-    fairystockfish::rustffi::TestWithGameResult Position::isImmediateGameEnd() const {
+    rsffish::TestWithGameResult Position::isImmediateGameEnd() const {
         return toRust(impl->isImmediateGameEnd());
     }
 
-    fairystockfish::rustffi::TestWithGameResult Position::isOptionalGameEnd() const {
+    rsffish::TestWithGameResult Position::isOptionalGameEnd() const {
         return toRust(impl->isOptionalGameEnd());
     }
-    fairystockfish::rustffi::TestByPlayers Position::hasInsufficientMaterial() const {
+    rsffish::TestByPlayers Position::hasInsufficientMaterial() const {
         return toRust(impl->hasInsufficientMaterial());
     }
 }

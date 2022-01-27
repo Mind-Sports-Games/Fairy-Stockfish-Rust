@@ -2,7 +2,6 @@
 #[cxx::bridge(namespace = "fairystockfish::rustffi")]
 pub mod ffi {
 
-    // TODO: Not sure if this is the right representation in Rust.
     struct PieceInfo {
         id: u32,
         name: String,
@@ -52,8 +51,6 @@ pub mod ffi {
         type Notation;
 
         fn init();
-
-        // TODO: switch to references for all string  parameters, probably.
 
         /// # Examples
         /// ```

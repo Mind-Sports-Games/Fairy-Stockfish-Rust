@@ -2,7 +2,7 @@
 name = "rsffish"
 version = "0.1.2"
 edition = "2021"
-license-file = "GPL-3.0-or-later"
+license = "GPL-3.0-or-later"
 description = "A Rust wrapper for fairystockfish based on https://github.com/mind-sports-games/Fairy-Stockfish-Lib"
 homepage = "https://github.com/mind-sports-games/Fairy-Stockfish-Rust"
 repository = "https://github.com/mind-sports-games/Fairy-Stockfish-Rust"

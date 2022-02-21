@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.6", rsffish::version());
+        /// assert_eq!("v0.0.7", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();

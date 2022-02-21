@@ -104,6 +104,9 @@ namespace rsffish {
         return retVal;
     }
 
+    rust::String availablePieceChars() { return fairystockfish::availablePieceChars(); }
+    rust::String availablePromotablePieceChars() { return fairystockfish::availablePromotablePieceChars(); }
+
     bool validateFEN(rust::String const &variantName, rust::String const &fen, bool isChess960) {
         return fairystockfish::validateFEN(std::string(variantName), std::string(fen), isChess960);
     }

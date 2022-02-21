@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.5", rsffish::version());
+        /// assert_eq!("v0.0.6", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -105,6 +105,26 @@ pub mod ffi {
         ///     );
         /// ```
         fn availablePieces() -> Vec<PieceInfo>;
+
+        /// # Examples
+        /// ```
+        /// rsffish::init();
+        /// assert_eq!(
+        ///     String::from("ABCDEFGHJKLMNPQRSWabcdefghjklmnpqrsw"),
+        ///     rsffish::availablePieceChars()
+        ///     );
+        /// ```
+        fn availablePieceChars() -> String;
+
+        /// # Examples
+        /// ```
+        /// rsffish::init();
+        /// assert_eq!(
+        ///     String::from("ABCEFGHJKLMNQRWabcefghjklmnqrw"),
+        ///     rsffish::availablePromotablePieceChars()
+        ///     );
+        /// ```
+        fn availablePromotablePieceChars() -> String;
 
 
         /// # Examples
@@ -249,6 +269,8 @@ pub use ffi::{
     availableVariants,
     initialFen,
     availablePieces,
+    availablePieceChars,
+    availablePromotablePieceChars,
     validateFEN,
     startingPosition,
     positionFromFen,

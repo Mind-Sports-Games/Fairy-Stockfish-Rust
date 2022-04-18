@@ -97,7 +97,7 @@ dependencies = [
 
 [[package]]
 name = "rsffish"
-version = "0.0.7"
+version = "0.0.9"
 dependencies = [
  "cxx",
  "cxx-build",

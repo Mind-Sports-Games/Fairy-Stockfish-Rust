@@ -167,8 +167,8 @@ namespace rsffish {
     bool Position::hasRepeated() const { return impl->hasRepeated(); }
     bool Position::isDraw(std::uint32_t ply) const { return impl->isDraw(int(ply)); }
     bool Position::hasGameCycle(std::uint32_t ply) const { return impl->hasGameCycle(int(ply)); }
-    std::uint32_t Position::gameResult() const {
-        return std::uint32_t(impl->gameResult());
+    std::int32_t Position::gameResult() const {
+        return std::int32_t(impl->gameResult());
     }
 
     rsffish::TestWithGameResult Position::isImmediateGameEnd() const {

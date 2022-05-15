@@ -49,7 +49,7 @@ namespace rsffish {
         bool hasRepeated() const;
         bool isDraw(std::uint32_t ply) const;
         bool hasGameCycle(std::uint32_t ply) const;
-        std::uint32_t gameResult() const;
+        std::int32_t gameResult() const;
         rsffish::TestWithGameResult isImmediateGameEnd() const;
         rsffish::TestWithGameResult isOptionalGameEnd() const;
         rsffish::TestByPlayers hasInsufficientMaterial() const;

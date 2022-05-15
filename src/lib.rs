@@ -252,7 +252,20 @@ pub mod ffi {
         fn hasRepeated(self: &Position) -> bool;
         fn isDraw(self: &Position, ply: u32) -> bool;
         fn hasGameCycle(self: &Position, ply: u32) -> bool;
-        fn gameResult(self: &Position) -> u32;
+        /// # Examples
+        /// ```
+        /// rsffish::init();
+        /// let p = rsffish::positionFromFen(
+        ///     &String::from("chess"),
+        ///     &String::from("8/1Q2b1k1/2p3p1/p2p2P1/8/5PB1/PP3RK1/3r3q w - - 2 37"),
+        ///     false
+        /// );
+        /// assert_eq!(
+        ///     -32000,
+        ///     p.gameResult()
+        /// );
+        /// ```
+        fn gameResult(self: &Position) -> i32;
         fn isImmediateGameEnd(self: &Position) -> TestWithGameResult;
         fn isOptionalGameEnd(self: &Position) -> TestWithGameResult;
         fn hasInsufficientMaterial(self: &Position) -> TestByPlayers;

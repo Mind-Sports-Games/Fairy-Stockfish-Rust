@@ -272,6 +272,27 @@ pub mod ffi {
     }
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_5check_game_continues_after_3_checks() {
+        init();
+        let moves: Vec<String> = vec![
+            "e2e4", "c7c6", "d2d4", "d7d5",
+            "e4d5", "c6c5", "d4c5", "c8g4",
+            "f1b5", "g4d7", "b5d7", "d8d7",
+            "c5c6", "b7c6", "d5c6", "d7d1",
+            "e1d1", "b8c6", "b2b3", "e8c8",
+            "c1d2", "d8d2"
+        ].iter().map(|s| s.to_string()).collect();
+        let mut pos = startingPosition(&"5check".to_string(), false);
+        pos = pos.makeMoves(&moves);
+        println!("{:?}", pos.getLegalMoves());
+        assert!(false);
+    }
+}
+
 // Re-export at the top level.
 pub use ffi::{
     init,
@@ -290,3 +311,4 @@ pub use ffi::{
     Color,
     Piece,
 };
+

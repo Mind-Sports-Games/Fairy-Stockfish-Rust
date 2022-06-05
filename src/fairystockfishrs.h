@@ -76,6 +76,7 @@ namespace rsffish {
     rust::String availablePieceChars();
     rust::String availablePromotablePieceChars();
     bool validateFEN(rust::String const &variantName, rust::String const &fen, bool isChess960);
+    rust::Vec<rust::String> to960Uci(rust::String const &variantName, rust::Vec<rust::String> const &moves);
     std::unique_ptr<Position> startingPosition(rust::String const &variantName, bool isChess960);
     std::unique_ptr<Position> positionFromFen(rust::String const &variantName, rust::String const &fen, bool isChess960);
 }

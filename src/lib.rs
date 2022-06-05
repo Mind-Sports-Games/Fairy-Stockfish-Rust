@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.10", rsffish::version());
+        /// assert_eq!("v0.0.11", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -139,6 +139,61 @@ pub mod ffi {
         /// );
         /// ```
         fn validateFEN(variantName: &String, fen: &String, isChess960: bool) -> bool;
+
+        /// # Examples
+        /// ```
+        /// rsffish::init();
+        /// let moves = vec![
+        ///     "e2e4".to_string(),
+        ///     "c7c5".to_string(),
+        ///     "g1f3".to_string(),
+        ///     "d7d6".to_string(),
+        ///     "d2d4".to_string(),
+        ///     "c5d4".to_string(),
+        ///     "f3d4".to_string(),
+        ///     "g8f6".to_string(),
+        ///     "b1c3".to_string(),
+        ///     "g7g6".to_string(),
+        ///     "c1g5".to_string(),
+        ///     "f8g7".to_string(),
+        ///     "f2f4".to_string(),
+        ///     "b8c6".to_string(),
+        ///     "f1b5".to_string(),
+        ///     "c8d7".to_string(),
+        ///     "d4c6".to_string(),
+        ///     "d7c6".to_string(),
+        ///     "b5c6".to_string(),
+        ///     "b7c6".to_string(),
+        ///     "e1g1".to_string()
+        /// ];
+        /// let _960Moves = rsffish::to960Uci(
+        ///         &"chess".to_string(),
+        ///         &moves
+        ///     );
+        /// assert_eq!(moves.len(), _960Moves.len());
+        /// assert_eq!(_960Moves[0], "e2e4".to_string());
+        /// assert_eq!(_960Moves[1], "c7c5".to_string());
+        /// assert_eq!(_960Moves[2], "g1f3".to_string());
+        /// assert_eq!(_960Moves[3], "d7d6".to_string());
+        /// assert_eq!(_960Moves[4], "d2d4".to_string());
+        /// assert_eq!(_960Moves[5], "c5d4".to_string());
+        /// assert_eq!(_960Moves[6], "f3d4".to_string());
+        /// assert_eq!(_960Moves[7], "g8f6".to_string());
+        /// assert_eq!(_960Moves[8], "b1c3".to_string());
+        /// assert_eq!(_960Moves[9], "g7g6".to_string());
+        /// assert_eq!(_960Moves[10], "c1g5".to_string());
+        /// assert_eq!(_960Moves[11], "f8g7".to_string());
+        /// assert_eq!(_960Moves[12], "f2f4".to_string());
+        /// assert_eq!(_960Moves[13], "b8c6".to_string());
+        /// assert_eq!(_960Moves[14], "f1b5".to_string());
+        /// assert_eq!(_960Moves[15], "c8d7".to_string());
+        /// assert_eq!(_960Moves[16], "d4c6".to_string());
+        /// assert_eq!(_960Moves[17], "d7c6".to_string());
+        /// assert_eq!(_960Moves[18], "b5c6".to_string());
+        /// assert_eq!(_960Moves[19], "b7c6".to_string());
+        /// assert_eq!(_960Moves[20], "e1h1".to_string());
+        /// ```
+        fn to960Uci(variantName: &String, moves: &Vec<String>) -> Vec<String>;
 
         type Position;
 
@@ -288,8 +343,7 @@ mod tests {
         ].iter().map(|s| s.to_string()).collect();
         let mut pos = startingPosition(&"5check".to_string(), false);
         pos = pos.makeMoves(&moves);
-        println!("{:?}", pos.getLegalMoves());
-        assert!(false);
+        assert!(pos.getLegalMoves().len() > 0);
     }
 }
 
@@ -306,6 +360,7 @@ pub use ffi::{
     availablePieceChars,
     availablePromotablePieceChars,
     validateFEN,
+    to960Uci,
     startingPosition,
     positionFromFen,
     Color,

@@ -111,6 +111,10 @@ namespace rsffish {
         return fairystockfish::validateFEN(std::string(variantName), std::string(fen), isChess960);
     }
 
+    rust::Vec<rust::String> to960Uci(rust::String const &variantName, rust::Vec<rust::String> const &moves) {
+        return toRust(fairystockfish::to960Uci(std::string(variantName), toCpp(moves)));
+    }
+
     std::unique_ptr<Position> startingPosition(rust::String const &variantName, bool isChess960) {
         return std::make_unique<Position>(
             fairystockfish::Position{std::string(variantName), isChess960}

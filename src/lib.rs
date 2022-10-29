@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.11", rsffish::version());
+        /// assert_eq!("v0.0.12", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -344,6 +344,33 @@ mod tests {
         let mut pos = startingPosition(&"5check".to_string(), false);
         pos = pos.makeMoves(&moves);
         assert!(pos.getLegalMoves().len() > 0);
+    }
+
+    #[test]
+    fn test_5check_castling() {
+        init();
+        let moves: Vec<String> = vec![
+            "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3",
+            "h4e7", "d1f3", "c6d4", "f1b5", "d4f3", "g1f3", "a7a6",
+            "e1g1"
+        ].iter().map(|s| s.to_string()).collect();
+        let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
+        assert_eq!(moves.len(), nine_sixty_moves.len());
+        assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
+        assert_eq!(nine_sixty_moves[1], "b8c6".to_string());
+        assert_eq!(nine_sixty_moves[2], "b2b3".to_string());
+        assert_eq!(nine_sixty_moves[3], "e7e6".to_string());
+        assert_eq!(nine_sixty_moves[4], "c1b2".to_string());
+        assert_eq!(nine_sixty_moves[5], "d8h4".to_string());
+        assert_eq!(nine_sixty_moves[6], "b1c3".to_string());
+        assert_eq!(nine_sixty_moves[7], "h4e7".to_string());
+        assert_eq!(nine_sixty_moves[8], "d1f3".to_string());
+        assert_eq!(nine_sixty_moves[9], "c6d4".to_string());
+        assert_eq!(nine_sixty_moves[10], "f1b5".to_string());
+        assert_eq!(nine_sixty_moves[11], "d4f3".to_string());
+        assert_eq!(nine_sixty_moves[12], "g1f3".to_string());
+        assert_eq!(nine_sixty_moves[13], "a7a6".to_string());
+        assert_eq!(nine_sixty_moves[14], "e1h1".to_string());
     }
 }
 

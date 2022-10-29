@@ -1,6 +1,6 @@
 [package]
 name = "rsffish"
-version = "0.0.11"
+version = "0.0.12"
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "A Rust wrapper for fairystockfish based on https://github.com/mind-sports-games/Fairy-Stockfish-Lib"

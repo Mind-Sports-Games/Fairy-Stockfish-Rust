@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.12", rsffish::version());
+        /// assert_eq!("v0.0.13", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -347,7 +347,7 @@ mod tests {
     }
 
     #[test]
-    fn test_5check_castling() {
+    fn test_5check_castling_white_queenside_notation() {
         init();
         let moves: Vec<String> = vec![
             "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3",
@@ -371,6 +371,111 @@ mod tests {
         assert_eq!(nine_sixty_moves[12], "g1f3".to_string());
         assert_eq!(nine_sixty_moves[13], "a7a6".to_string());
         assert_eq!(nine_sixty_moves[14], "e1h1".to_string());
+    }
+
+    #[test]
+    fn test_5check_castling_white_kingside_notation() {
+        init();
+        let moves: Vec<String> = vec![
+            "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3",
+            "h4e7", "d1f3", "c6d4", "f1b5", "d4f3", "g1f3", "a7a6",
+            "e1c1"
+        ].iter().map(|s| s.to_string()).collect();
+        let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
+        assert_eq!(moves.len(), nine_sixty_moves.len());
+        assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
+        assert_eq!(nine_sixty_moves[1], "b8c6".to_string());
+        assert_eq!(nine_sixty_moves[2], "b2b3".to_string());
+        assert_eq!(nine_sixty_moves[3], "e7e6".to_string());
+        assert_eq!(nine_sixty_moves[4], "c1b2".to_string());
+        assert_eq!(nine_sixty_moves[5], "d8h4".to_string());
+        assert_eq!(nine_sixty_moves[6], "b1c3".to_string());
+        assert_eq!(nine_sixty_moves[7], "h4e7".to_string());
+        assert_eq!(nine_sixty_moves[8], "d1f3".to_string());
+        assert_eq!(nine_sixty_moves[9], "c6d4".to_string());
+        assert_eq!(nine_sixty_moves[10], "f1b5".to_string());
+        assert_eq!(nine_sixty_moves[11], "d4f3".to_string());
+        assert_eq!(nine_sixty_moves[12], "g1f3".to_string());
+        assert_eq!(nine_sixty_moves[13], "a7a6".to_string());
+        assert_eq!(nine_sixty_moves[14], "e1a1".to_string());
+    }
+
+    #[test]
+    fn test_5check_castling_black_kingside_notation() {
+        init();
+        let moves: Vec<String> = vec![
+            "e2e4", "b7b6", "b1c3", "c8b7",
+            "d2d4", "g7g6", "g1f3", "f8g7",
+            "f3g5", "g8f6", "e4e5", "b8c6",
+            "b2b3", "d7d6", "e5f6", "g7f6",
+            "f1c4", "e7e6", "c3e4", "d8e7",
+            "e4f6", "e7f6", "c4b5", "e8g8"
+        ].iter().map(|s| s.to_string()).collect();
+        let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
+        assert_eq!(moves.len(), nine_sixty_moves.len());
+        assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
+        assert_eq!(nine_sixty_moves[1], "b7b6".to_string());
+        assert_eq!(nine_sixty_moves[2], "b1c3".to_string());
+        assert_eq!(nine_sixty_moves[3], "c8b7".to_string());
+        assert_eq!(nine_sixty_moves[4], "d2d4".to_string());
+        assert_eq!(nine_sixty_moves[5], "g7g6".to_string());
+        assert_eq!(nine_sixty_moves[6], "g1f3".to_string());
+        assert_eq!(nine_sixty_moves[7], "f8g7".to_string());
+        assert_eq!(nine_sixty_moves[8], "f3g5".to_string());
+        assert_eq!(nine_sixty_moves[9], "g8f6".to_string());
+        assert_eq!(nine_sixty_moves[10], "e4e5".to_string());
+        assert_eq!(nine_sixty_moves[11], "b8c6".to_string());
+        assert_eq!(nine_sixty_moves[12], "b2b3".to_string());
+        assert_eq!(nine_sixty_moves[13], "d7d6".to_string());
+        assert_eq!(nine_sixty_moves[14], "e5f6".to_string());
+        assert_eq!(nine_sixty_moves[15], "g7f6".to_string());
+        assert_eq!(nine_sixty_moves[16], "f1c4".to_string());
+        assert_eq!(nine_sixty_moves[17], "e7e6".to_string());
+        assert_eq!(nine_sixty_moves[18], "c3e4".to_string());
+        assert_eq!(nine_sixty_moves[19], "d8e7".to_string());
+        assert_eq!(nine_sixty_moves[20], "e4f6".to_string());
+        assert_eq!(nine_sixty_moves[21], "e7f6".to_string());
+        assert_eq!(nine_sixty_moves[22], "c4b5".to_string());
+        assert_eq!(nine_sixty_moves[23], "e8h8".to_string());
+    }
+
+    #[test]
+    fn test_5check_castling_black_queenside_notation() {
+        init();
+        let moves: Vec<String> = vec![
+            "e2e4", "b7b6", "b1c3", "c8b7",
+            "d2d4", "g7g6", "g1f3", "f8g7",
+            "f3g5", "g8f6", "e4e5", "b8c6",
+            "b2b3", "d7d6", "e5f6", "g7f6",
+            "f1c4", "e7e6", "c3e4", "d8e7",
+            "e4f6", "e7f6", "c4b5", "e8c8"
+        ].iter().map(|s| s.to_string()).collect();
+        let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
+        assert_eq!(moves.len(), nine_sixty_moves.len());
+        assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
+        assert_eq!(nine_sixty_moves[1], "b7b6".to_string());
+        assert_eq!(nine_sixty_moves[2], "b1c3".to_string());
+        assert_eq!(nine_sixty_moves[3], "c8b7".to_string());
+        assert_eq!(nine_sixty_moves[4], "d2d4".to_string());
+        assert_eq!(nine_sixty_moves[5], "g7g6".to_string());
+        assert_eq!(nine_sixty_moves[6], "g1f3".to_string());
+        assert_eq!(nine_sixty_moves[7], "f8g7".to_string());
+        assert_eq!(nine_sixty_moves[8], "f3g5".to_string());
+        assert_eq!(nine_sixty_moves[9], "g8f6".to_string());
+        assert_eq!(nine_sixty_moves[10], "e4e5".to_string());
+        assert_eq!(nine_sixty_moves[11], "b8c6".to_string());
+        assert_eq!(nine_sixty_moves[12], "b2b3".to_string());
+        assert_eq!(nine_sixty_moves[13], "d7d6".to_string());
+        assert_eq!(nine_sixty_moves[14], "e5f6".to_string());
+        assert_eq!(nine_sixty_moves[15], "g7f6".to_string());
+        assert_eq!(nine_sixty_moves[16], "f1c4".to_string());
+        assert_eq!(nine_sixty_moves[17], "e7e6".to_string());
+        assert_eq!(nine_sixty_moves[18], "c3e4".to_string());
+        assert_eq!(nine_sixty_moves[19], "d8e7".to_string());
+        assert_eq!(nine_sixty_moves[20], "e4f6".to_string());
+        assert_eq!(nine_sixty_moves[21], "e7f6".to_string());
+        assert_eq!(nine_sixty_moves[22], "c4b5".to_string());
+        assert_eq!(nine_sixty_moves[23], "e8a8".to_string());
     }
 }
 

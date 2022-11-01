@@ -54,7 +54,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.13", rsffish::version());
+        /// assert_eq!("v0.0.14", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -476,6 +476,30 @@ mod tests {
         assert_eq!(nine_sixty_moves[21], "e7f6".to_string());
         assert_eq!(nine_sixty_moves[22], "c4b5".to_string());
         assert_eq!(nine_sixty_moves[23], "e8a8".to_string());
+    }
+
+    #[test]
+    fn test_valid_rook_moves_not_translated() {
+        init();
+        let moves: Vec<String> = vec![
+            "e2e4", "b8a6", "g1f3", "a6b8",
+            "f1d3", "b8a6", "e1e2", "a6b8",
+            "h1e1", "b8a6", "e1g1",
+        ].iter().map(|s| s.to_string()).collect();
+        let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
+        assert_eq!(moves.len(), nine_sixty_moves.len());
+        assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
+        assert_eq!(nine_sixty_moves[1], "b8a6".to_string());
+        assert_eq!(nine_sixty_moves[2], "g1f3".to_string());
+        assert_eq!(nine_sixty_moves[3], "a6b8".to_string());
+        assert_eq!(nine_sixty_moves[4], "f1d3".to_string());
+        assert_eq!(nine_sixty_moves[5], "b8a6".to_string());
+        assert_eq!(nine_sixty_moves[6], "e1e2".to_string());
+        assert_eq!(nine_sixty_moves[7], "a6b8".to_string());
+        assert_eq!(nine_sixty_moves[8], "h1e1".to_string());
+        assert_eq!(nine_sixty_moves[9], "b8a6".to_string());
+        assert_eq!(nine_sixty_moves[10], "e1g1".to_string());
+
     }
 }
 

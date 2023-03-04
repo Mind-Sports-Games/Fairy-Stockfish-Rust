@@ -1,4 +1,3 @@
-
 #[cxx::bridge(namespace = "rsffish")]
 pub mod ffi {
 
@@ -20,7 +19,7 @@ pub mod ffi {
 
     enum Color {
         White,
-        Black
+        Black,
     }
 
     struct Piece {
@@ -31,30 +30,154 @@ pub mod ffi {
 
     struct PieceOnBoard {
         piece: Piece,
-        square: String
+        square: Square,
     }
 
     enum Notation {
         NOTATION_DEFAULT,
         NOTATION_SAN,
         NOTATION_LAN,
-        NOTATION_SHOGI_HOSKING, // Examples: P76, S’34
-        NOTATION_SHOGI_HODGES, // Examples: P-7f, S*3d
+        NOTATION_SHOGI_HOSKING,       // Examples: P76, S’34
+        NOTATION_SHOGI_HODGES,        // Examples: P-7f, S*3d
         NOTATION_SHOGI_HODGES_NUMBER, // Examples: P-76, S*34
         NOTATION_JANGGI,
         NOTATION_XIANGQI_WXF,
+    }
+
+    enum Square {
+        SQ_A1,
+        SQ_B1,
+        SQ_C1,
+        SQ_D1,
+        SQ_E1,
+        SQ_F1,
+        SQ_G1,
+        SQ_H1,
+        SQ_I1,
+        SQ_J1,
+        SQ_K1,
+        SQ_L1,
+        SQ_A2,
+        SQ_B2,
+        SQ_C2,
+        SQ_D2,
+        SQ_E2,
+        SQ_F2,
+        SQ_G2,
+        SQ_H2,
+        SQ_I2,
+        SQ_J2,
+        SQ_K2,
+        SQ_L2,
+        SQ_A3,
+        SQ_B3,
+        SQ_C3,
+        SQ_D3,
+        SQ_E3,
+        SQ_F3,
+        SQ_G3,
+        SQ_H3,
+        SQ_I3,
+        SQ_J3,
+        SQ_K3,
+        SQ_L3,
+        SQ_A4,
+        SQ_B4,
+        SQ_C4,
+        SQ_D4,
+        SQ_E4,
+        SQ_F4,
+        SQ_G4,
+        SQ_H4,
+        SQ_I4,
+        SQ_J4,
+        SQ_K4,
+        SQ_L4,
+        SQ_A5,
+        SQ_B5,
+        SQ_C5,
+        SQ_D5,
+        SQ_E5,
+        SQ_F5,
+        SQ_G5,
+        SQ_H5,
+        SQ_I5,
+        SQ_J5,
+        SQ_K5,
+        SQ_L5,
+        SQ_A6,
+        SQ_B6,
+        SQ_C6,
+        SQ_D6,
+        SQ_E6,
+        SQ_F6,
+        SQ_G6,
+        SQ_H6,
+        SQ_I6,
+        SQ_J6,
+        SQ_K6,
+        SQ_L6,
+        SQ_A7,
+        SQ_B7,
+        SQ_C7,
+        SQ_D7,
+        SQ_E7,
+        SQ_F7,
+        SQ_G7,
+        SQ_H7,
+        SQ_I7,
+        SQ_J7,
+        SQ_K7,
+        SQ_L7,
+        SQ_A8,
+        SQ_B8,
+        SQ_C8,
+        SQ_D8,
+        SQ_E8,
+        SQ_F8,
+        SQ_G8,
+        SQ_H8,
+        SQ_I8,
+        SQ_J8,
+        SQ_K8,
+        SQ_L8,
+        SQ_A9,
+        SQ_B9,
+        SQ_C9,
+        SQ_D9,
+        SQ_E9,
+        SQ_F9,
+        SQ_G9,
+        SQ_H9,
+        SQ_I9,
+        SQ_J9,
+        SQ_K9,
+        SQ_L9,
+        SQ_A10,
+        SQ_B10,
+        SQ_C10,
+        SQ_D10,
+        SQ_E10,
+        SQ_F10,
+        SQ_G10,
+        SQ_H10,
+        SQ_I10,
+        SQ_J10,
+        SQ_K10,
+        SQ_L10,
     }
 
     unsafe extern "C++" {
         include!("rsffish/src/fairystockfishrs.h");
 
         type Notation;
+        type Square;
 
         fn init();
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.15", rsffish::version());
+        /// assert_eq!("v0.0.18", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -125,7 +248,6 @@ pub mod ffi {
         ///     );
         /// ```
         fn availablePromotablePieceChars() -> String;
-
 
         /// # Examples
         /// ```
@@ -198,7 +320,11 @@ pub mod ffi {
         type Position;
 
         fn startingPosition(variantName: &String, isChess960: bool) -> UniquePtr<Position>;
-        fn positionFromFen(variantName: &String, fen: &String, isChess960: bool) -> UniquePtr<Position>;
+        fn positionFromFen(
+            variantName: &String,
+            fen: &String,
+            isChess960: bool,
+        ) -> UniquePtr<Position>;
         fn makeMoves(self: &Position, moves: &Vec<String>) -> UniquePtr<Position>;
 
         /// # Examples
@@ -212,7 +338,12 @@ pub mod ffi {
         /// );
         /// ```
         fn getFEN(self: &Position) -> String;
-        fn getFENWithArgs(self: &Position, sFen: bool, showPromoted: bool, countStarted: u32) -> String;
+        fn getFENWithArgs(
+            self: &Position,
+            sFen: bool,
+            showPromoted: bool,
+            countStarted: u32,
+        ) -> String;
 
         /// # Examples
         /// ```
@@ -237,7 +368,11 @@ pub mod ffi {
         fn getSAN(self: &Position, uci: &String) -> String;
         fn getSANWithNotation(self: &Position, uci: &String, notation: Notation) -> String;
         fn getSANMoves(self: &Position, uci: &Vec<String>) -> Vec<String>;
-        fn getSANMovesWithNotation(self: &Position, uci: &Vec<String>, notation: Notation) -> Vec<String>;
+        fn getSANMovesWithNotation(
+            self: &Position,
+            uci: &Vec<String>,
+            notation: Notation,
+        ) -> Vec<String>;
 
         /// # Examples
         /// ```
@@ -334,13 +469,12 @@ mod tests {
     fn test_5check_game_continues_after_3_checks() {
         init();
         let moves: Vec<String> = vec![
-            "e2e4", "c7c6", "d2d4", "d7d5",
-            "e4d5", "c6c5", "d4c5", "c8g4",
-            "f1b5", "g4d7", "b5d7", "d8d7",
-            "c5c6", "b7c6", "d5c6", "d7d1",
-            "e1d1", "b8c6", "b2b3", "e8c8",
-            "c1d2", "d8d2"
-        ].iter().map(|s| s.to_string()).collect();
+            "e2e4", "c7c6", "d2d4", "d7d5", "e4d5", "c6c5", "d4c5", "c8g4", "f1b5", "g4d7", "b5d7",
+            "d8d7", "c5c6", "b7c6", "d5c6", "d7d1", "e1d1", "b8c6", "b2b3", "e8c8", "c1d2", "d8d2",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let mut pos = startingPosition(&"5check".to_string(), false);
         pos = pos.makeMoves(&moves);
         assert!(pos.getLegalMoves().len() > 0);
@@ -350,10 +484,12 @@ mod tests {
     fn test_5check_castling_white_queenside_notation() {
         init();
         let moves: Vec<String> = vec![
-            "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3",
-            "h4e7", "d1f3", "c6d4", "f1b5", "d4f3", "g1f3", "a7a6",
-            "e1g1"
-        ].iter().map(|s| s.to_string()).collect();
+            "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3", "h4e7", "d1f3", "c6d4", "f1b5",
+            "d4f3", "g1f3", "a7a6", "e1g1",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
         assert_eq!(moves.len(), nine_sixty_moves.len());
         assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
@@ -377,10 +513,12 @@ mod tests {
     fn test_5check_castling_white_kingside_notation() {
         init();
         let moves: Vec<String> = vec![
-            "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3",
-            "h4e7", "d1f3", "c6d4", "f1b5", "d4f3", "g1f3", "a7a6",
-            "e1c1"
-        ].iter().map(|s| s.to_string()).collect();
+            "e2e4", "b8c6", "b2b3", "e7e6", "c1b2", "d8h4", "b1c3", "h4e7", "d1f3", "c6d4", "f1b5",
+            "d4f3", "g1f3", "a7a6", "e1c1",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
         assert_eq!(moves.len(), nine_sixty_moves.len());
         assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
@@ -404,13 +542,13 @@ mod tests {
     fn test_5check_castling_black_kingside_notation() {
         init();
         let moves: Vec<String> = vec![
-            "e2e4", "b7b6", "b1c3", "c8b7",
-            "d2d4", "g7g6", "g1f3", "f8g7",
-            "f3g5", "g8f6", "e4e5", "b8c6",
-            "b2b3", "d7d6", "e5f6", "g7f6",
-            "f1c4", "e7e6", "c3e4", "d8e7",
-            "e4f6", "e7f6", "c4b5", "e8g8"
-        ].iter().map(|s| s.to_string()).collect();
+            "e2e4", "b7b6", "b1c3", "c8b7", "d2d4", "g7g6", "g1f3", "f8g7", "f3g5", "g8f6", "e4e5",
+            "b8c6", "b2b3", "d7d6", "e5f6", "g7f6", "f1c4", "e7e6", "c3e4", "d8e7", "e4f6", "e7f6",
+            "c4b5", "e8g8",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
         assert_eq!(moves.len(), nine_sixty_moves.len());
         assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
@@ -443,13 +581,13 @@ mod tests {
     fn test_5check_castling_black_queenside_notation() {
         init();
         let moves: Vec<String> = vec![
-            "e2e4", "b7b6", "b1c3", "c8b7",
-            "d2d4", "g7g6", "g1f3", "f8g7",
-            "f3g5", "g8f6", "e4e5", "b8c6",
-            "b2b3", "d7d6", "e5f6", "g7f6",
-            "f1c4", "e7e6", "c3e4", "d8e7",
-            "e4f6", "e7f6", "c4b5", "e8c8"
-        ].iter().map(|s| s.to_string()).collect();
+            "e2e4", "b7b6", "b1c3", "c8b7", "d2d4", "g7g6", "g1f3", "f8g7", "f3g5", "g8f6", "e4e5",
+            "b8c6", "b2b3", "d7d6", "e5f6", "g7f6", "f1c4", "e7e6", "c3e4", "d8e7", "e4f6", "e7f6",
+            "c4b5", "e8c8",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
         assert_eq!(moves.len(), nine_sixty_moves.len());
         assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
@@ -482,10 +620,11 @@ mod tests {
     fn test_valid_rook_moves_not_translated() {
         init();
         let moves: Vec<String> = vec![
-            "e2e4", "b8a6", "g1f3", "a6b8",
-            "f1d3", "b8a6", "e1e2", "a6b8",
-            "h1e1", "b8a6", "e1g1",
-        ].iter().map(|s| s.to_string()).collect();
+            "e2e4", "b8a6", "g1f3", "a6b8", "f1d3", "b8a6", "e1e2", "a6b8", "h1e1", "b8a6", "e1g1",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let nine_sixty_moves = to960Uci(&"5check".to_string(), &moves);
         assert_eq!(moves.len(), nine_sixty_moves.len());
         assert_eq!(nine_sixty_moves[0], "e2e4".to_string());
@@ -499,27 +638,12 @@ mod tests {
         assert_eq!(nine_sixty_moves[8], "h1e1".to_string());
         assert_eq!(nine_sixty_moves[9], "b8a6".to_string());
         assert_eq!(nine_sixty_moves[10], "e1g1".to_string());
-
     }
 }
 
 // Re-export at the top level.
 pub use ffi::{
-    init,
-    version,
-    info,
-    setUCIOption,
-    loadVariantConfig,
-    availableVariants,
-    initialFen,
-    availablePieces,
-    availablePieceChars,
-    availablePromotablePieceChars,
-    validateFEN,
-    to960Uci,
-    startingPosition,
-    positionFromFen,
-    Color,
-    Piece,
+    availablePieceChars, availablePieces, availablePromotablePieceChars, availableVariants, info,
+    init, initialFen, loadVariantConfig, positionFromFen, setUCIOption, startingPosition, to960Uci,
+    validateFEN, version, Color, Piece,
 };
-

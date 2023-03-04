@@ -85,7 +85,7 @@ namespace rsffish {
         };
     }
 
-    rsffish::PieceOnBoard toRust(std::string square, fairystockfish::Piece const &p) {
+    rsffish::PieceOnBoard toRust(fairystockfish::Square square, fairystockfish::Piece const &p) {
         return rsffish::PieceOnBoard{
             toRust(p),
             square
@@ -161,8 +161,8 @@ namespace rsffish {
     rust::Vec<rsffish::PieceOnBoard> Position::piecesOnBoard() const {
         auto pieceMap = impl->piecesOnBoard();
         rust::Vec<PieceOnBoard> retVal;
-        for (auto const &[board, piece] : pieceMap) {
-            retVal.push_back(toRust(board, piece));
+        for (auto const &[square, piece] : pieceMap) {
+            retVal.push_back(toRust(square, piece));
         }
         return retVal;
     }

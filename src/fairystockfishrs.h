@@ -16,6 +16,7 @@
 
 namespace rsffish {
     using Notation = fairystockfish::Notation;
+    using Square = fairystockfish::Square;
     struct PieceInfo;
     struct TestWithGameResult;
     struct TestByPlayers;

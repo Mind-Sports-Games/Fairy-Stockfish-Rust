@@ -8,6 +8,8 @@ fn main() {
         .define("LARGEBOARDS", Some(""))
         .define("PRECOMPUTED_MAGICS", Some(""))
         .define("NDEBUG", Some(""))
+        .define("ALLVARS", Some(""))
+        .define("IS_64BIT", Some(""))
         .file("src/fairystockfishrs.cpp")
         .file("deps/Fairy-Stockfish-Lib/src/fairystockfish.cpp")
         .file("deps/Fairy-Stockfish-Lib/vendor/Fairy-Stockfish/src/benchmark.cpp")

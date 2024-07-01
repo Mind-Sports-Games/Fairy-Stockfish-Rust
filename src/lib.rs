@@ -177,7 +177,7 @@ pub mod ffi {
 
         /// # Examples
         /// ```
-        /// assert_eq!("v0.0.18", rsffish::version());
+        /// assert_eq!("v0.0.20", rsffish::version());
         /// ```
         fn version() -> String;
         fn info();
@@ -243,7 +243,7 @@ pub mod ffi {
         /// ```
         /// rsffish::init();
         /// assert_eq!(
-        ///     String::from("ABCEFGHJKLMNQRWabcefghjklmnqrw"),
+        ///     String::from("ABCDEFGHJKLMNQRWabcdefghjklmnqrw"),
         ///     rsffish::availablePromotablePieceChars()
         ///     );
         /// ```
